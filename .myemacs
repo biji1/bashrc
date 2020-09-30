@@ -1,0 +1,153 @@
+;; line and column number
+(setq line-number-mode t)
+(setq column-number-mode t)
+
+;; remove whitespace on save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(setq-default show-trailing-whitespace t)
+
+;; move with ALT+UP/DOWN
+(defun move-line (n)
+  "Move the current line up or down by N lines."
+  (interactive "p")
+  (setq col (current-column))
+  (beginning-of-line) (setq start (point))
+  (end-of-line) (forward-char) (setq end (point))
+  (let ((line-text (delete-and-extract-region start end)))
+    (forward-line n)
+    (insert line-text)
+    ;; restore point to original column in moved line
+    (forward-line -1)
+    (forward-char col)))
+
+(defun move-line-up (n)
+  "Move the current line up by N lines."
+  (interactive "p")
+  (move-line (if (null n) -1 (- n))))
+
+(defun move-line-down (n)
+  "Move the current line down by N lines."
+  (interactive "p")
+  (move-line (if (null n) 1 n)))
+
+(global-set-key (kbd "M-<up>") 'move-line-up)
+(global-set-key (kbd "M-<down>") 'move-line-down)
+
+;; insert template with ALT+X: <cmd>
+(define-skeleton hh
+  "Throwaway HH skeleton"
+  "\n"
+  "\n#ifndef		A_HH_\n"
+  "# define	A_HH_\n"
+  "\n"
+  "class A\n"
+  "{\n"
+  "\n"
+  "public:\n"
+  "\n"
+  "A();\n"
+  "~A();\n"
+  "\n"
+  "};\n"
+  "\n"
+  "#endif\n")
+(define-skeleton h
+  "Throwaway H skeleton"
+  "\n"
+  "\n#ifndef		_H_\n"
+  "# define	_H_\n"
+  "\n"
+  "\n"
+  "\n"
+  "#endif\n")
+(define-skeleton c
+  "Throwaway C skeleton"
+  "\n"
+  "\n#include <stdio.h>\n"
+  "\n"
+  "int			main()\n"
+  "{\n"
+  "\n"
+  "return (0);\n"
+  "}\n")
+(define-skeleton cpp
+  "Throwaway CPP skeleton"
+  "\n"
+  "\n#include <iostream>\n"
+  "\n"
+  "int			main()\n"
+  "{\n"
+  "\n"
+  "return 0;\n"
+  "}\n")
+(define-skeleton cppc
+  "Throwaway CPPP skeleton"
+  "\n"
+  "\n#include \"A.hh\"\n"
+  "\n"
+  "A::A()\n"
+  "{\n"
+  "}\n"
+  "\n"
+  "A::~A()\n"
+  "{\n"
+  "}\n"
+  "\n")
+(define-skeleton m
+  "Throwaway M skeleton"
+  "\n"
+  "\nCC	=	gcc\n"
+  "\n"
+  "RM	=	rm -f\n"
+  "\n"
+  "NAME	=	a\n"
+  "\n"
+  "SRCS	=	main.c			\\\n"
+  "\n"
+  "OBJS	=	$(SRCS:.c=.o)\n"
+  "\n"
+  "CFLAGS	=	-W -Wall -Werror -Wextra\n"
+  "\n"
+  "all:	$(NAME)\n"
+  "\n"
+  "$(NAME):	$(OBJS)\n"
+  "	$(CC) -o $(NAME) $(OBJS)\n"
+  "\n"
+  "clean:\n"
+  "	$(RM) $(OBJS)\n"
+  "\n"
+  "fclean:	clean\n"
+  "	$(RM) $(NAME)\n"
+  "\n"
+  "re:	fclean all\n"
+  "\n"
+  ".PHONY:	all clean fclean re\n")
+(define-skeleton mpp
+  "Throwaway MPP skeleton"
+  "\n"
+  "\nCC		=	g++\n"
+  "\n"
+  "RM		=	rm -f\n"
+  "\n"
+  "NAME		=	a\n"
+  "\n"
+  "SRCS		=	main.cpp		\\\n"
+  "\n"
+  "OBJS		=	$(SRCS:.cpp=.o)\n"
+  "\n"
+  "CXXFLAGS	=	-W -Wall -Werror -Wextra\n"
+  "\n"
+  "all:	$(NAME)\n"
+  "\n"
+  "$(NAME):	$(OBJS)\n"
+  "	$(CC) -o $(NAME) $(OBJS)\n"
+  "\n"
+  "clean:\n"
+  "	$(RM) $(OBJS)\n"
+  "\n"
+  "fclean:	clean\n"
+  "	$(RM) $(NAME)\n"
+  "\n"
+  "re:	fclean all\n"
+  "\n"
+  ".PHONY:	all clean fclean re\n")
