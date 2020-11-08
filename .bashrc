@@ -1,17 +1,44 @@
-# .bashrc
+# ~/.bashrc
 
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
-fi
+# History
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=2000
+shopt -s histappend # append to hist instead of overwrite
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
+# check the window size after each command and, if necessary, update the values of LINES and COLUMNS.
+shopt -s checkwinsize
 
-# User specific aliases and functions
+# Auto CD
+shopt -s autocd
 
-alias l="ls -l"
-alias la="ls -la"
-alias md="mkdir"
-alias cd..="cd .."
-alias emacs="emacs -nw"
+# Promps
+PS1='\[\033[01;32m\]\u\[\033[00m\]|\[\033[01;34m\]\w\[\033[00m\]|\[\033[00m\] '
+
+# Alias
+alias ls='ls --color=auto'
+alias l='ls -l --color=auto'
+alias la='ls -la --color=auto'
+alias cd..='cd ..'
+
+alias md='mkdir'
+alias rd='rmdir'
+
+#alias grep='grep --color=auto'
+alias grep='rg'
+alias zgrep='zgrep --color =auto'
+
+alias LUP='sudo light -A 10'
+alias LDOWN='sudo light -U 10'
+
+alias apt='sudo apt'
+
+alias g='git'
+alias vim='nvim'
+alias v='nvim'
+
+alias ytabest="youtube-dl --add-metadata --extract-audio --audio-format best "
+alias ytaflac="youtube-dl --add-metadata --extract-audio --audio-format flac "
+alias ytamp3="youtube-dl --add-metadata --extract-audio --audio-format mp3 "
+alias ytv="youtube-dl --add-metadata -f bestvideo+bestaudio "
+
