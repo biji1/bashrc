@@ -12,8 +12,12 @@ shopt -s checkwinsize
 # Auto CD
 shopt -s autocd
 
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
 # Promps
-PS1='\[\033[01;32m\]\u\[\033[00m\]|\[\033[01;34m\]\w\[\033[00m\]|\[\033[00m\] '
+export PS1="\[\e[01;31m\]\u\[\e[00m\]|\[\e[01;34m\]\w\[\e[00m\]|\[\e[01;33m\]\$(parse_git_branch)\[\e[00m\] "
 
 # Alias
 alias ls='ls --color=auto'
